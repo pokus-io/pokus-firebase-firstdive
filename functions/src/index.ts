@@ -8,8 +8,6 @@ import * as functions from "firebase-functions";
 //   response.send("Hello from Firebase!");
 // });
 export const helloWorld = functions.https.onRequest((request, response) => {
- functions.logger.info("Hello Pokus logs!", {structuredData: true});
- response.send("Hello from Pokus Serverless on Firebase!");
+  functions.logger.info("Hello Pokus logs!", {structuredData: true});
+  response.send("Hello from Pokus Serverless on Firebase!");
 });
-
-// functions/src/index.ts
