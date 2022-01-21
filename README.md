@@ -1,10 +1,199 @@
 # A First dive into Firebase serverless
 
-Relates to an excellent video series posted by ["The Net Ninja"](https://www.youtube.com/watch?v=29BNaJiqWB4&list=PL4cUxeGkcC9i_aLkr62adUTJi53y7OjOf&index=2)
+A Dive into Firebase serverless offer by epidodes, made out of an excellent video series posted by ["The Net Ninja"](https://www.youtube.com/watch?v=29BNaJiqWB4&list=PL4cUxeGkcC9i_aLkr62adUTJi53y7OjOf&index=2)
+* release `0.0.0` = episode 1 https://www.youtube.com/watch?v=29BNaJiqWB4&list=PL4cUxeGkcC9i_aLkr62adUTJi53y7OjOf&index=2
+* release `0.0.1` = episode 2 https://www.youtube.com/watch?v=Vik66tAVOBg&list=PL4cUxeGkcC9i_aLkr62adUTJi53y7OjOf&index=3
+* release `0.0.2` = episode 3 https://www.youtube.com/watch?v=Vik66tAVOBg&list=PL4cUxeGkcC9i_aLkr62adUTJi53y7OjOf&index=4
 
 
 
 ## Epidode 1 : spining up a new static website project with firebase serverless capabilities
+
+### How to run the Episode 1's firebase app
+
+* description :
+  * we want to generate a full firebase project, for a static website, that will use serverless backend for making various services available to the website visitor.
+  * we want a Database
+  * we want firebase authentication
+  * we want hosting to deploy our static website
+  * we want at the end of the Episode 1, our website deployed.
+  * we want a basic HTML/css template for the friebase static website
+
+* environment :
+
+```bash
+$ firebase --version
+10.1.2
+$ node -v
+v16.13.0
+$ npm --version
+8.2.0
+$ lsb_release -a
+No LSB modules are available.
+Distributor ID:	Debian
+Description:	Debian GNU/Linux 9.12 (stretch)
+Release:	9.12
+Codename:	stretch
+$ bash --version
+GNU bash, version 4.4.12(1)-release (x86_64-pc-linux-gnu)
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+```
+
+And here is how to :
+
+* run the Episode 1's firebase app :
+
+```bash
+export FIREBASE_CLI_DESIRED_VERSION="10.1.2"
+npm remove -g firebase-tools && npm install -g firebase-tools@${FIREBASE_CLI_DESIRED_VERSION}
+
+export DESIRED_VERSION="0.0.0"
+export WORK_DIR="$(pwd)/firebase-firstdive"
+git clone git@github.com:pokus-io/pokus-firebase-firstdive.git ${WORK_DIR}
+cd ${WORK_DIR}
+git checkout ${DESIRED_VERSION}
+npm i
+firebase serve
+```
+
+### How to compile the sererless functions the Episode 1's firebase app
+
+* compile the sererless functions of the firebase app :
+
+```bash
+export FIREBASE_CLI_DESIRED_VERSION="10.1.2"
+npm remove -g firebase-tools && npm install -g firebase-tools@${FIREBASE_CLI_DESIRED_VERSION}
+
+export DESIRED_VERSION="0.0.0"
+export WORK_DIR="$(pwd)/firebase-firstdive"
+git clone git@github.com:pokus-io/pokus-firebase-firstdive.git ${WORK_DIR}
+cd ${WORK_DIR}
+git checkout ${DESIRED_VERSION}
+npm i
+
+cd functions/
+npm run build
+```
+
+
+### How to deploy the Episode 1's firebase app
+
+>
+> First, you have to know that deploying to `Firebase hosting` **is not free**, so **you will have** to upgrade your account **to the "pay as you go" Google Firebase plan**.
+>
+> That was a problem to me :
+> * I wanted to depoy to a free hsoting solution
+> * that's why i will try in Episode 2, to change the depoyement autpation assets, so that deployment goes to :
+>   * `${pokus-firebase-webapp}.surge.sh`
+>   * `${pokus-firebase-webapp}.dokku.io`
+>   * `${pokus-firebase-webapp}.back4app.io`
+> ... see that in Epidode 2
+
+* deploy the firebase app like this :
+
+```bash
+# what i love about that command : it runs ESLint on TypeScript
+firebase deploy
+```
+
+For this command to succeed, you will need to upgrade yor Google account, for the Google Firebase "pay-as-you-go" plan, otherwise you will get the following error on the std err of the `Firebase CLI` :
+
+```bash
+Error: Your project pokus-firebase-firstdive must be on the Blaze (pay-as-you-go) plan to complete this command. Required API cloudbuild.googleapis.com can't be enabled until the upgrade is complete. To upgrade, visit the following URL:
+
+https://console.firebase.google.com/project/pokus-firebase-firstdive/usage/details
+```
+
+Read also about that error in [Episode 2's Wishlist](#episode-2s-wishlist)
+
+### Episode 2's Wishlist
+
+* we want a basic HTML/css template for the friebase static website :
+  * [ ] based on material design for the web : https://material.io/develop/web
+  * with a ui which looks like app.circleci.com :
+    * [ ] first Firebase OAuth2 login (later add Github OAuth2 as well)
+    * when logged in with Github, you end up opening a new page wiht a dashboard, where you can :
+      * [ ] create new trends to upvote for
+      * [ ] create new voting sessions
+      * [ ] upvote a given trend by clicing the upvote buttons (all results in Firebase database)
+* [ ] change deployment target options, and add related automation asets, using cirlce ci along Github actiosn generated by firebase cli :
+>
+> First, you have to know that deploying to `Firebase hosting` **is not free**, so **you will have** to upgrade your account **to the "pay as you go" Google Firebase plan**.
+>
+> That was a problem to me :
+> * I wanted to depoy to a free hsoting solution
+> * that's why i will try in Episode 2, to change the depoyement autpation assets, so that deployment goes to :
+>   * `${pokus-firebase-webapp}.surge.sh`
+>   * `${pokus-firebase-webapp}.dokku.io`
+>   * `${pokus-firebase-webapp}.back4app.io`
+> ... see that in Epidode 2
+
+* Indeed, for the firebase deploy command, i get :
+
+```bash
+$ firebase deploy
+
+=== Deploying to 'pokus-firebase-firstdive'...
+
+i  deploying firestore, functions, hosting
+Running command: npm --prefix "$RESOURCE_DIR" run lint
+
+> lint
+> eslint --ext .js,.ts .
+
+
+/home/jibl/pokus/firebase-firstdive/functions/src/index.ts
+  11:1  error  Expected indentation of 2 spaces but found 1  indent
+  12:1  error  Expected indentation of 2 spaces but found 1  indent
+
+✖ 2 problems (2 errors, 0 warnings)
+  2 errors and 0 warnings potentially fixable with the `--fix` option.
+
+
+Error: functions predeploy error: Command terminated with non-zero exit code1
+jibl@poste-devops-jbl-16gbram:~/pokus/firebase-firstdive$ firebase deploy
+
+=== Deploying to 'pokus-firebase-firstdive'...
+
+i  deploying firestore, functions, hosting
+Running command: npm --prefix "$RESOURCE_DIR" run lint
+
+> lint
+> eslint --ext .js,.ts .
+
+Running command: npm --prefix "$RESOURCE_DIR" run build
+
+> build
+> tsc
+
+✔  functions: Finished running predeploy script.
+i  firestore: reading indexes from firestore.indexes.json...
+i  cloud.firestore: checking firestore.rules for compilation errors...
+✔  cloud.firestore: rules file firestore.rules compiled successfully
+i  functions: ensuring required API cloudfunctions.googleapis.com is enabled...
+i  functions: ensuring required API cloudbuild.googleapis.com is enabled...
+i  functions: ensuring required API artifactregistry.googleapis.com is enabled...
+✔  functions: required API cloudfunctions.googleapis.com is enabled
+⚠  functions: missing required API artifactregistry.googleapis.com. Enabling now...
+⚠  functions: missing required API cloudbuild.googleapis.com. Enabling now...
+
+Error: Your project pokus-firebase-firstdive must be on the Blaze (pay-as-you-go) plan to complete this command. Required API cloudbuild.googleapis.com can't be enabled until the upgrade is complete. To upgrade, visit the following URL:
+
+https://console.firebase.google.com/project/pokus-firebase-firstdive/usage/details
+
+Having trouble? Try firebase [command] --help
+
+```
+
+* bring up one more fancy UI features : a beautiful carousel...?
+
+
+### Episode 1's Timelapse
 
 * execute :
 
@@ -42,13 +231,14 @@ Waiting for authentication...
 ✔  Success! Logged in as jean.baptiste.lasselle@gmail.com
 
 ```
+
 * we need to generate the projet, and before using the firebase cli command to do that :
   * We need to create one app named `pokus-firebase-firstdive` in the Google Firebase dashboard at https://firebase.google.com
   * we will jave to choose options for the following firebase services :
     * database :
       * 2 options, either a `Firestore` DB, or a `Realtime` Db, we will choose a `Firestore` DB, just liek our frined `@The Net Ninja`.
       * We need to create the Firestore Database, for the `pokus-firebase-firstdive` app, in the Google Firebase dashboard at https://firebase.google.com
-    * hosting : ccc.
+    * hosting
     * Firebase Functions (that we will use to deploy Lambdas an use thsoe lambadas. Google Firebase Auth is a lambda)
     * but not google anaytics
 
@@ -389,19 +579,22 @@ import * as functions from "firebase-functions";
 //   response.send("Hello from Firebase!");
 // });
 export const helloWorld = functions.https.onRequest((request, response) => {
- functions.logger.info("Hello Pokus logs!", {structuredData: true});
- response.send("Hello from Pokus Serverless on Firebase!");
+  functions.logger.info("Hello Pokus logs!", {structuredData: true});
+  response.send("Hello from Pokus Serverless on Firebase!");
 });
 EOF
 
 npm run build
 
-firbase serve
+firebase serve
 
 ```
 * and go to http://localhost:5000/ , wouaou, you are a Firebase Hero now and should see :
 
 ![Firebase hero wouaou](./documentation/images/firebase-hero.png)
 
+* I want to duely note, that I can find docuementation about the hosting options :
+  * at https://firebase.google.com/docs/hosting/
+  * I want a general overwview otf it, to determine important confiurations options, like TLS certificates probably I imagine
 
 Next epidode, we'll add up a few more things to our new firebase webapp
